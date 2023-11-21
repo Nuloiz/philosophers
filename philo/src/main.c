@@ -31,18 +31,18 @@ static int	check_input(int argc, char **argv)
 	while (i < argc)
 	{
 		if (i > 3)
-			return (printf("Error: To Many Arguments\n") - 26);
+			return (printf("Error: To Many Arguments\n"));
 		j = 0;
 		while (argv[i][j] != '\0')
 		{
 			if (!ft_isdigit(argv[i][j]))
-				return (printf("Error: Arguments are non numeric\n") - 34);
+				return (printf("Error: Arguments are non numeric\n"));
 			j++;
 		}
 		i++;
 	}
-	if (i == 0)
-		return (printf("Error: No Arguments\n") - 21);
+	if (i < 3)
+		return (printf("Error: No Arguments\n"));
 	return (1);
 }
 
@@ -66,7 +66,7 @@ int	main(int argc, char **argv)
 	thr = 1;
 	argc--;
 	argv++;
-	if (!check_input(argc, argv))
+	if (check_input(argc, argv) > 1)
 		return (0);
 	input.count = ft_atoi(argv[0]);
 	input.die = ft_atoi(argv[1]);
@@ -74,5 +74,5 @@ int	main(int argc, char **argv)
 	input.sleep = ft_atoi(argv[3]);
 	pthread_create(&thread, NULL, *threads, (void *)&thr);
 	pthread_join(thread, NULL);
-	return (argc);
+	return (1);
 }
