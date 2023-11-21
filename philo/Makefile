@@ -3,7 +3,8 @@ NAME := philo
 CC := gcc
 
 CFLAGS := -Wall -Wextra -Werror -g
-# CFLAGS := $(CFLAGS) -fsanitize=address
+#CFLAGS := $(CFLAGS) -fsanitize=address
+#CFLAGS := $(CFLAGS) -fsanitize=threads
 
 SRC := main.c
 
