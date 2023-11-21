@@ -27,6 +27,7 @@ typedef struct s_info_i
 	long	die;
 	long	eat;
 	long	sleep;
+	long	must_eat;
 }	t_info_i;
 
 int		main(int argc, char **argv);

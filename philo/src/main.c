@@ -30,8 +30,8 @@ static int	check_input(int argc, char **argv)
 	i = 0;
 	while (i < argc)
 	{
-		if (i > 3)
-			return (printf("Error: To Many Arguments\n"));
+		if (i > 4)
+			return (printf("Error: To many arguments\n"));
 		j = 0;
 		while (argv[i][j] != '\0')
 		{
@@ -42,7 +42,7 @@ static int	check_input(int argc, char **argv)
 		i++;
 	}
 	if (i < 3)
-		return (printf("Error: No Arguments\n"));
+		return (printf("Error: To less arguments\n"));
 	return (1);
 }
 
@@ -72,6 +72,8 @@ int	main(int argc, char **argv)
 	input.die = ft_atoi(argv[1]);
 	input.eat = ft_atoi(argv[2]);
 	input.sleep = ft_atoi(argv[3]);
+	if (argc == 5)
+		input.must_eat = ft_atoi(argv[4]);
 	pthread_create(&thread, NULL, *threads, (void *)&thr);
 	pthread_join(thread, NULL);
 	return (1);
