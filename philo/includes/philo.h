@@ -19,7 +19,17 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <string.h>
+# include <pthread.h>
 
-int	main(int argc, char **argv);
+typedef struct s_info_i
+{
+	long	count;
+	long	die;
+	long	eat;
+	long	sleep;
+}	t_info_i;
+
+int		main(int argc, char **argv);
+long	ft_atoi(const char *str);
 
 #endif

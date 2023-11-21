@@ -30,25 +30,49 @@ static int	check_input(int argc, char **argv)
 	i = 0;
 	while (i < argc)
 	{
+		if (i > 3)
+			return (printf("Error: To Many Arguments\n") - 26);
 		j = 0;
 		while (argv[i][j] != '\0')
 		{
 			if (!ft_isdigit(argv[i][j]))
-			{
-				return (printf("Error: Invalid arguments") - 24);
-			}
+				return (printf("Error: Arguments are non numeric\n") - 34);
 			j++;
 		}
 		i++;
 	}
+	if (i == 0)
+		return (printf("Error: No Arguments\n") - 21);
 	return (1);
 }
 
+void	*threads(void *ptr)
+{
+	int	type;
+
+	type = (int)ptr;
+	printf("Thread - %d\n", type);
+	return (ptr);
+}
+
+
 int	main(int argc, char **argv)
 {
-	argc = argc -1;
-	argv = argv + 1;
+	t_info_i	input;
+	pthread_t	thread;
+	int			thr;
+
+	thread = NULL;
+	thr = 1;
+	argc--;
+	argv++;
 	if (!check_input(argc, argv))
 		return (0);
+	input.count = ft_atoi(argv[0]);
+	input.die = ft_atoi(argv[1]);
+	input.eat = ft_atoi(argv[2]);
+	input.sleep = ft_atoi(argv[3]);
+	pthread_create(&thread, NULL, *threads, (void *)&thr);
+	pthread_join(thread, NULL);
 	return (argc);
 }

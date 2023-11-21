@@ -6,7 +6,8 @@ CFLAGS := -Wall -Wextra -Werror -g
 #CFLAGS := $(CFLAGS) -fsanitize=address
 #CFLAGS := $(CFLAGS) -fsanitize=threads
 
-SRC := main.c
+SRC := main.c \
+	   libft_func/ft_atoi.c
 
 SRC_DIR := src
 OBJ_DIR := obj
@@ -22,6 +23,7 @@ $(NAME): $(OBJ)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c includes/
 	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)/libft_func
 	@$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
 	@echo "Compiling $<"
 
