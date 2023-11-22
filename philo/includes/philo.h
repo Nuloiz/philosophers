@@ -23,11 +23,12 @@
 
 typedef struct s_info_i
 {
-	long	count;
-	long	die;
-	long	eat;
-	long	sleep;
-	long	must_eat;
+	long			count;
+	long			die;
+	long			eat;
+	long			sleep;
+	long			must_eat;
+	pthread_mutex_t	*fork;
 }	t_info_i;
 
 int		main(int argc, char **argv);
