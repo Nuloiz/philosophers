@@ -31,6 +31,8 @@ typedef struct s_info_i
 }	t_info_i;
 
 int		main(int argc, char **argv);
+int		philo(t_info_i input);
 long	ft_atoi(const char *str);
+void	*ft_calloc(size_t count, size_t size);
 
 #endif

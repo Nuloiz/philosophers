@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "philo.h"
 
 
 static int	ft_isdigit(int c)
@@ -28,10 +28,12 @@ static int	check_input(int argc, char **argv)
 	int	j;
 
 	i = 0;
+	if (argc < 4)
+		return (printf("Error: To less arguments\n"));
+	else if (argc > 5)
+		return (printf("Error: To many arguments\n"));
 	while (i < argc)
 	{
-		if (i > 4)
-			return (printf("Error: To many arguments\n"));
 		j = 0;
 		while (argv[i][j] != '\0')
 		{
@@ -41,29 +43,13 @@ static int	check_input(int argc, char **argv)
 		}
 		i++;
 	}
-	if (i < 3)
-		return (printf("Error: To less arguments\n"));
 	return (1);
 }
-
-void	*threads(void *ptr)
-{
-	int	type;
-
-	type = (int)ptr;
-	printf("Thread - %d\n", type);
-	return (ptr);
-}
-
 
 int	main(int argc, char **argv)
 {
 	t_info_i	input;
-	pthread_t	thread;
-	int			thr;
 
-	thread = NULL;
-	thr = 1;
 	argc--;
 	argv++;
 	if (check_input(argc, argv) > 1)
@@ -74,7 +60,7 @@ int	main(int argc, char **argv)
 	input.sleep = ft_atoi(argv[3]);
 	if (argc == 5)
 		input.must_eat = ft_atoi(argv[4]);
-	pthread_create(&thread, NULL, *threads, (void *)&thr);
-	pthread_join(thread, NULL);
-	return (1);
+	else
+		input.must_eat = -1;
+	return (philo(input));
 }
