@@ -55,12 +55,13 @@ int	main(int argc, char **argv)
 	if (check_input(argc, argv) > 1)
 		return (0);
 	input.count = ft_atoi(argv[0]);
-	input.die = ft_atoi(argv[1]);
-	input.eat = ft_atoi(argv[2]);
-	input.sleep = ft_atoi(argv[3]);
+	input.die = ft_atoi(argv[1]) * 1000;
+	input.eat = ft_atoi(argv[2]) * 1000;
+	input.sleep = ft_atoi(argv[3]) * 1000;
 	if (argc == 5)
 		input.must_eat = ft_atoi(argv[4]);
 	else
 		input.must_eat = -1;
+	input.start_time = start_time();
 	return (philo(input));
 }

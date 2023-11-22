@@ -16,22 +16,25 @@ typedef void*	(*t_thread_func)(void	*);
 
 static void	*threading(t_info_i *input)
 {
-	int	i;
+	int					i;
+	unsigned long long	meal;
 
 	i = 0;
+	meal = 0;
 	while (1)
 	{
 		if (input->must_eat > -1 && input->must_eat == i)
 			break ;
-		printf("eats\n");
-		usleep(input->eat);
-		printf("sleeps\n");
-		usleep(input->sleep);
-		if (input->eat + input->sleep >= input->die)
+		if (meal + (unsigned long long)input->die < get_time(input))
 		{
-			printf("dies\n");
+			printf("%llu dies\n", get_time(input));
 			break ;
 		}
+		printf("%llu eats\n", get_time(input));
+		usleep(input->eat);
+		meal = get_time(input);
+		printf("%llu sleeps\n", get_time(input));
+		usleep(input->sleep);
 		i++;
 	}
 	return ((void *)input);
