@@ -25,7 +25,7 @@ static void	*threading(t_info_i *input)
 	{
 		if (input->must_eat > -1 && input->must_eat == i)
 			break ;
-		if (meal + (unsigned long long)input->die < get_time(input))
+		if (meal + ((unsigned long long)input->die / 1000) < get_time(input))
 		{
 			printf("%llu dies\n", get_time(input));
 			break ;
