@@ -33,6 +33,11 @@ static void	*threading(t_philo *input)
 		printf("%llu %d eats\n", get_time(input), input->num);
 		usleep(input->eat);
 		meal = get_time(input);
+		if (meal + ((unsigned long long)input->die / 1000) < get_time(input))
+		{
+			printf("%llu %d dies\n", get_time(input), input->num);
+			break ;
+		}
 		printf("%llu %d sleeps\n", get_time(input), input->num);
 		usleep(input->sleep);
 		i++;
@@ -60,12 +65,19 @@ int	philo(t_info_i input)
 	philos = ft_calloc(sizeof(t_philo), input.count);
 	input.philos = ft_calloc(sizeof(pthread_t), input.count);
 	input.forks = ft_calloc(sizeof(pthread_mutex_t), input.count);
-	i = 0;
-	while (i < (int)input.count)
-	{
+	i = -1;
+	while (++i < input.count)
 		pthread_mutex_init(&(input.forks[i]), NULL);
+	i = 0;
+	while (i < input.count)
+	{
 		philos[i] = fill_struct_philo(input);
 		philos[i].num = i + 1;
+		philos[i].r_fork = input.forks[i];
+		if (i == 0)
+			philos[i].l_fork = input.forks[input.count - 1];
+		else
+			philos[i].l_fork = input.forks[i - 1];
 		pthread_create(&(input.philos[i]), NULL, (t_thread_func)threading, (void *)&philos[i]);
 		i++;
 	}

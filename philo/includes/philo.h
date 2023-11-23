@@ -40,6 +40,8 @@ typedef struct s_philo
 	int					must_eat;
 	int					num;
 	unsigned long long	start_time;
+	pthread_mutex_t		l_fork;
+	pthread_mutex_t		r_fork;
 }	t_philo;
 
 int					main(int argc, char **argv);
