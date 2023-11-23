@@ -46,6 +46,7 @@ int					main(int argc, char **argv);
 int					philo(t_info_i input);
 unsigned long long	get_time(t_philo *input);
 unsigned long long	start_time(void);
+void				free_every(t_philo *philos, t_info_i input);
 long				ft_atoi(const char *str);
 void				*ft_calloc(size_t count, size_t size);
 

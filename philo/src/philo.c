@@ -63,7 +63,6 @@ int	philo(t_info_i input)
 	i = 0;
 	while (i < (int)input.count)
 	{
-		printf("Philosopher: %d\n", i + 1);
 		pthread_mutex_init(&(input.forks[i]), NULL);
 		philos[i] = fill_struct_philo(input);
 		philos[i].num = i + 1;
@@ -71,5 +70,6 @@ int	philo(t_info_i input)
 		i++;
 	}
 	pthread_join(input.philos[i - 1], NULL);
+	free_every(philos, input);
 	return (0);
 }
