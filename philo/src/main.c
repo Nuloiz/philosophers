@@ -62,6 +62,5 @@ int	main(int argc, char **argv)
 		input.must_eat = ft_atoi(argv[4]);
 	else
 		input.must_eat = -1;
-	input.start_time = start_time();
 	return (philo(input));
 }

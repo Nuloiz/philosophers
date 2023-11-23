@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-unsigned long long	get_time(t_info_i *input)
+unsigned long long	get_time(t_philo *input)
 {
 	unsigned long long	miliseconds;
 	struct timeval		time;

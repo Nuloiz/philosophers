@@ -13,7 +13,6 @@
 #ifndef PHILO_H
 # define PHILO_H
 
-# define FUN "/bin/rm"
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -24,18 +23,28 @@
 
 typedef struct s_info_i
 {
-	long				count;
-	long				die;
-	long				eat;
-	long				sleep;
-	long				must_eat;
-	pthread_mutex_t		*fork;
-	unsigned long long	start_time;
+	int					count;
+	unsigned long		die;
+	unsigned long		eat;
+	unsigned long		sleep;
+	int					must_eat;
+	pthread_mutex_t		*forks;
+	pthread_t			*philos;
 }	t_info_i;
+
+typedef struct s_philo
+{
+	unsigned long		die;
+	unsigned long		eat;
+	unsigned long		sleep;
+	int					must_eat;
+	int					num;
+	unsigned long long	start_time;
+}	t_philo;
 
 int					main(int argc, char **argv);
 int					philo(t_info_i input);
-unsigned long long	get_time(t_info_i *input);
+unsigned long long	get_time(t_philo *input);
 unsigned long long	start_time(void);
 long				ft_atoi(const char *str);
 void				*ft_calloc(size_t count, size_t size);

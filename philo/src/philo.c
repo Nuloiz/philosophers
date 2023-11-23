@@ -14,7 +14,7 @@
 
 typedef void*	(*t_thread_func)(void	*);
 
-static void	*threading(t_info_i *input)
+static void	*threading(t_philo *input)
 {
 	int					i;
 	unsigned long long	meal;
@@ -27,36 +27,49 @@ static void	*threading(t_info_i *input)
 			break ;
 		if (meal + ((unsigned long long)input->die / 1000) < get_time(input))
 		{
-			printf("%llu dies\n", get_time(input));
+			printf("%llu %d dies\n", get_time(input), input->num);
 			break ;
 		}
-		printf("%llu eats\n", get_time(input));
+		printf("%llu %d eats\n", get_time(input), input->num);
 		usleep(input->eat);
 		meal = get_time(input);
-		printf("%llu sleeps\n", get_time(input));
+		printf("%llu %d sleeps\n", get_time(input), input->num);
 		usleep(input->sleep);
 		i++;
 	}
 	return ((void *)input);
 }
 
+t_philo	fill_struct_philo(t_info_i input)
+{
+	t_philo	philos;
+
+	philos.start_time = start_time();
+	philos.must_eat = input.must_eat;
+	philos.eat = input.eat;
+	philos.die = input.die;
+	philos.sleep = input.sleep;
+	return (philos);
+}
+
 int	philo(t_info_i input)
 {
-	pthread_t		*threads;
-	pthread_mutex_t	*mutexes;
-	int				i;
+	int		i;
+	t_philo	*philos;
 
-	threads = ft_calloc(sizeof(pthread_t), input.count);
-	mutexes = ft_calloc(sizeof(pthread_mutex_t), input.count);
+	philos = ft_calloc(sizeof(t_philo), input.count);
+	input.philos = ft_calloc(sizeof(pthread_t), input.count);
+	input.forks = ft_calloc(sizeof(pthread_mutex_t), input.count);
 	i = 0;
-	printf("Input.count: %d\n", (int)input.count);
 	while (i < (int)input.count)
 	{
-		printf("Philosopher: %d\n", i);
-		pthread_mutex_init(&(mutexes[i]), NULL);
-		pthread_create(&(threads[i]), NULL, (t_thread_func)threading, (void *)&input);
-		pthread_join(threads[i], NULL);
+		printf("Philosopher: %d\n", i + 1);
+		pthread_mutex_init(&(input.forks[i]), NULL);
+		philos[i] = fill_struct_philo(input);
+		philos[i].num = i + 1;
+		pthread_create(&(input.philos[i]), NULL, (t_thread_func)threading, (void *)&philos[i]);
 		i++;
 	}
+	pthread_join(input.philos[i - 1], NULL);
 	return (0);
 }
