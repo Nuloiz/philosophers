@@ -42,6 +42,7 @@ typedef struct s_philo
 	unsigned long long	start_time;
 	pthread_mutex_t		*l_fork;
 	pthread_mutex_t		*r_fork;
+	int					alive;
 }	t_philo;
 
 int					main(int argc, char **argv);

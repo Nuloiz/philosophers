@@ -44,11 +44,12 @@ static void	*threading(t_philo *input)
 		if (input->must_eat > -1 && input->must_eat == i)
 			break ;
 		if (eat(input, meal) == -1)
-			break;
+			break ;
 		meal = get_time(input);
 		if (meal + ((unsigned long long)input->die / 1000) < get_time(input))
 		{
 			printf("%llu %d dies\n", get_time(input), input->num);
+			input->alive = 0;
 			break ;
 		}
 		printf("%llu %d sleeps\n", get_time(input), input->num);
@@ -67,6 +68,7 @@ static t_philo	fill_struct_philo(t_info_i input)
 	philos.eat = input.eat;
 	philos.die = input.die;
 	philos.sleep = input.sleep;
+	philos.alive = 1;
 	return (philos);
 }
 
@@ -92,6 +94,13 @@ int	philo(t_info_i input)
 		else
 			philos[i].l_fork = &input.forks[i - 1];
 		pthread_create(&(input.philos[i]), NULL, (t_thread_func)threading, (void *)&philos[i]);
+		i++;
+	}
+	i = -1;
+	while (i < input.count)
+	{
+		if (philos[i].alive == 0)
+			return (free_every(philos, input), -1);
 		i++;
 	}
 	pthread_join(input.philos[i - 1], NULL);
