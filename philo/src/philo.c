@@ -57,6 +57,7 @@ static void	*threading(t_philo *input)
 		usleep(input->sleep);
 		i++;
 	}
+	input->fed_up = 1;
 	return ((void *)input);
 }
 
@@ -70,7 +71,27 @@ static t_philo	fill_struct_philo(t_info_i input)
 	philos.die = input.die;
 	philos.sleep = input.sleep;
 	philos.alive = 1;
+	philos.fed_up = 0;
 	return (philos);
+}
+
+void	philos_fed_up(t_info_i *input)
+{
+	int	i;
+	int j;
+
+	i = 0;
+	j = 1;
+	while (i < input->count)
+	{
+		if (input->philos[i].fed_up == 0)
+		{
+			j = 0;
+			break ;
+		}
+		i++;
+	}
+	input->all_fed_up = j;
 }
 
 int	philo(t_info_i input)
@@ -101,8 +122,9 @@ int	philo(t_info_i input)
 		i = -1;
 		while (++i < input.count)
 		{
-			if (input.philos[i].alive == 0)
+			if (input.philos[i].alive == 0 || input.all_fed_up)
 				return (free_every(input), -1);
+			philos_fed_up(&input);
 		}
 	}
 }
