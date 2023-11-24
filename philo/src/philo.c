@@ -76,10 +76,9 @@ static t_philo	fill_struct_philo(t_info_i input)
 int	philo(t_info_i input)
 {
 	int		i;
-	t_philo	*philos;
 
-	philos = ft_calloc(sizeof(t_philo), input.count);
-	input.philos = ft_calloc(sizeof(pthread_t), input.count);
+	input.philos = ft_calloc(sizeof(t_philo), input.count);
+	input.thread = ft_calloc(sizeof(pthread_t), input.count);
 	input.forks = ft_calloc(sizeof(pthread_mutex_t), input.count);
 	i = -1;
 	while (++i < input.count)
@@ -87,14 +86,14 @@ int	philo(t_info_i input)
 	i = 0;
 	while (i < input.count)
 	{
-		philos[i] = fill_struct_philo(input);
-		philos[i].num = i + 1;
-		philos[i].r_fork = &input.forks[i];
+		input.philos[i] = fill_struct_philo(input);
+		input.philos[i].num = i + 1;
+		input.philos[i].r_fork = &input.forks[i];
 		if (i == 0)
-			philos[i].l_fork = &input.forks[input.count - 1];
+			input.philos[i].l_fork = &input.forks[input.count - 1];
 		else
-			philos[i].l_fork = &input.forks[i - 1];
-		pthread_create(&(input.philos[i]), NULL, (t_thread_func)threading, (void *)&philos[i]);
+			input.philos[i].l_fork = &input.forks[i - 1];
+		pthread_create(&(input.thread[i]), NULL, (t_thread_func)threading, (void *)&(input.philos[i]));
 		i++;
 	}
 	while (1)
@@ -102,8 +101,8 @@ int	philo(t_info_i input)
 		i = -1;
 		while (++i < input.count)
 		{
-			if (philos[i].alive == 0)
-				return (free_every(philos, input), -1);
+			if (input.philos[i].alive == 0)
+				return (free_every(input), -1);
 		}
 	}
 }

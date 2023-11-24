@@ -21,16 +21,6 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-typedef struct s_info_i
-{
-	int					count;
-	unsigned long		die;
-	unsigned long		eat;
-	unsigned long		sleep;
-	int					must_eat;
-	pthread_mutex_t		*forks;
-	pthread_t			*philos;
-}	t_info_i;
 
 typedef struct s_philo
 {
@@ -45,11 +35,23 @@ typedef struct s_philo
 	int					alive;
 }	t_philo;
 
+typedef struct s_info_i
+{
+	int					count;
+	unsigned long		die;
+	unsigned long		eat;
+	unsigned long		sleep;
+	int					must_eat;
+	pthread_mutex_t		*forks;
+	pthread_t			*thread;
+	t_philo				*philos;
+}	t_info_i;
+
 int					main(int argc, char **argv);
 int					philo(t_info_i input);
 unsigned long long	get_time(t_philo *input);
 unsigned long long	start_time(void);
-void				free_every(t_philo *philos, t_info_i input);
+void				free_every(t_info_i input);
 long				ft_atoi(const char *str);
 void				*ft_calloc(size_t count, size_t size);
 

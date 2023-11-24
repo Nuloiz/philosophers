@@ -12,9 +12,9 @@
 
 #include "philo.h"
 
-void	free_every(t_philo *philos, t_info_i input)
+void	free_every(t_info_i input)
 {
-	free(philos);
 	free(input.philos);
+	free(input.thread);
 	free(input.forks);
 }
