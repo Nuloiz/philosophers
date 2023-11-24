@@ -20,12 +20,13 @@ static int	eat(t_philo *input, unsigned long long meal)
 	pthread_mutex_lock((input->r_fork));
 	if (meal + ((unsigned long long)input->die / 1000) < get_time(input))
 	{
-		printf("%llu %d dies\n", get_time(input), input->num);
+		printf("%llu %d died\n", get_time(input), input->num);
+		input->alive = 0;
 		pthread_mutex_unlock((input->l_fork));
 		pthread_mutex_unlock((input->r_fork));
 		return (-1);
 	}
-	printf("%llu %d eats\n", get_time(input), input->num);
+	printf("%llu %d is eating\n", get_time(input), input->num);
 	usleep(input->eat);
 	pthread_mutex_unlock((input->l_fork));
 	pthread_mutex_unlock((input->r_fork));
@@ -48,11 +49,11 @@ static void	*threading(t_philo *input)
 		meal = get_time(input);
 		if (meal + ((unsigned long long)input->die / 1000) < get_time(input))
 		{
-			printf("%llu %d dies\n", get_time(input), input->num);
+			printf("%llu %d died\n", get_time(input), input->num);
 			input->alive = 0;
 			break ;
 		}
-		printf("%llu %d sleeps\n", get_time(input), input->num);
+		printf("%llu %d is sleeping\n", get_time(input), input->num);
 		usleep(input->sleep);
 		i++;
 	}
@@ -96,14 +97,13 @@ int	philo(t_info_i input)
 		pthread_create(&(input.philos[i]), NULL, (t_thread_func)threading, (void *)&philos[i]);
 		i++;
 	}
-	i = -1;
-	while (i < input.count)
+	while (1)
 	{
-		if (philos[i].alive == 0)
-			return (free_every(philos, input), -1);
-		i++;
+		i = -1;
+		while (++i < input.count)
+		{
+			if (philos[i].alive == 0)
+				return (free_every(philos, input), -1);
+		}
 	}
-	pthread_join(input.philos[i - 1], NULL);
-	free_every(philos, input);
-	return (0);
 }
