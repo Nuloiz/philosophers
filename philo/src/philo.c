@@ -17,7 +17,18 @@ typedef void*	(*t_thread_func)(void	*);
 static int	eat(t_philo *input, unsigned long long meal)
 {
 	pthread_mutex_lock((input->l_fork));
+	if (input->kill == 1)
+		return (-1);
+	if (meal + ((unsigned long long)input->die / 1000) < get_time(input))
+	{
+		printf("%llu %d died\n", get_time(input), input->num);
+		input->alive = 0;
+		pthread_mutex_unlock((input->l_fork));
+		return (-1);
+	}
 	pthread_mutex_lock((input->r_fork));
+	if (input->kill == 1)
+		return (-1);
 	if (meal + ((unsigned long long)input->die / 1000) < get_time(input))
 	{
 		printf("%llu %d died\n", get_time(input), input->num);
@@ -42,7 +53,7 @@ static void	*threading(t_philo *input)
 	meal = 0;
 	while (1)
 	{
-		if (input->must_eat > -1 && input->must_eat == i)
+		if (input->must_eat == i || input->kill == 1)
 			break ;
 		if (eat(input, meal) == -1)
 			break ;
@@ -72,6 +83,7 @@ static t_philo	fill_struct_philo(t_info_i input)
 	philos.sleep = input.sleep;
 	philos.alive = 1;
 	philos.fed_up = 0;
+	philos.kill = 0;
 	return (philos);
 }
 
@@ -122,9 +134,11 @@ int	philo(t_info_i input)
 		i = -1;
 		while (++i < input.count)
 		{
-			if (input.philos[i].alive == 0 || input.all_fed_up)
-				return (free_every(input), -1);
 			philos_fed_up(&input);
+			if (input.all_fed_up)
+				return (free_every(input), -1);
+			else if (input.philos[i].alive == 0)
+				return (someone_died(&input), -1);
 		}
 	}
 }

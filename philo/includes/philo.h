@@ -34,6 +34,7 @@ typedef struct s_philo
 	pthread_mutex_t		*r_fork;
 	int					alive;
 	int 				fed_up;
+	int 				kill;
 }	t_philo;
 
 typedef struct s_info_i
@@ -54,6 +55,7 @@ int					philo(t_info_i input);
 unsigned long long	get_time(t_philo *input);
 unsigned long long	start_time(void);
 void				free_every(t_info_i input);
+void				someone_died(t_info_i *input);
 long				ft_atoi(const char *str);
 void				*ft_calloc(size_t count, size_t size);
 

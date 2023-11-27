@@ -27,3 +27,16 @@ void	free_every(t_info_i input)
 	free(input.thread);
 	free(input.forks);
 }
+
+void	someone_died(t_info_i *input)
+{
+	int	j;
+
+	j = 0;
+	while (j < input->count)
+	{
+		input->philos[j].kill = 1;
+		j++;
+	}
+	free_every(*input);
+}
