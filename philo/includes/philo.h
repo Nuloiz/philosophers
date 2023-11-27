@@ -35,6 +35,9 @@ typedef struct s_philo
 	int					alive;
 	int 				fed_up;
 	int 				kill;
+	pthread_mutex_t		*print_m;
+	int 				*print_b;
+
 }	t_philo;
 
 typedef struct s_info_i
@@ -48,12 +51,15 @@ typedef struct s_info_i
 	pthread_t			*thread;
 	t_philo				*philos;
 	int 				all_fed_up;
+	pthread_mutex_t		print_m;
+	int 				print_b;
 }	t_info_i;
 
 int					main(int argc, char **argv);
 int					philo(t_info_i input);
 unsigned long long	get_time(t_philo *input);
 unsigned long long	start_time(void);
+int					prot_print(char *str, t_philo *input);
 void				free_every(t_info_i input);
 void				someone_died(t_info_i *input);
 long				ft_atoi(const char *str);
