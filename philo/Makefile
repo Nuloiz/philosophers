@@ -2,9 +2,9 @@ NAME := philo
 
 CC := gcc
 
-CFLAGS := -Wall -Wextra -Werror -g
-#CFLAGS := $(CFLAGS) -fsanitize=address
-#CFLAGS := $(CFLAGS) -fsanitize=threads
+#CFLAGS := -Wall -Wextra -Werror -g
+CFLAGS := $(CFLAGS) -fsanitize=address -g
+#CFLAGS := $(CFLAGS) -fsanitize=thread
 
 SRC := main.c philo.c time.c free.c\
 	   libft_func/ft_atoi.c libft_func/ft_calloc.c
