@@ -32,9 +32,8 @@ typedef struct s_philo
 	unsigned long long	start_time;
 	pthread_mutex_t		*l_fork;
 	pthread_mutex_t		*r_fork;
-	int					alive;
+	unsigned long long	meal;
 	int 				fed_up;
-	int 				kill;
 	pthread_mutex_t		*print_m;
 	int 				*print_b;
 
@@ -61,7 +60,6 @@ unsigned long long	get_time(t_philo *input);
 unsigned long long	start_time(void);
 int					prot_print(char *str, t_philo *input);
 void				free_every(t_info_i input);
-void				someone_died(t_info_i *input);
 long				ft_atoi(const char *str);
 void				*ft_calloc(size_t count, size_t size);
 

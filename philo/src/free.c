@@ -23,20 +23,8 @@ void	free_every(t_info_i input)
 		pthread_join((input.thread[i]), NULL);
 		i++;
 	}
+	pthread_mutex_destroy(&(input.print_m));
 	free(input.philos);
 	free(input.thread);
 	free(input.forks);
-}
-
-void	someone_died(t_info_i *input)
-{
-	int	j;
-
-	j = 0;
-	while (j < input->count)
-	{
-		input->philos[j].kill = 1;
-		j++;
-	}
-	free_every(*input);
 }
