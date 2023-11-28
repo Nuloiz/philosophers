@@ -85,7 +85,7 @@ static t_philo	fill_struct_philo(t_info_i *input)
 void	philos_fed_up(t_info_i *input)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	j = 1;

@@ -21,7 +21,6 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-
 typedef struct s_philo
 {
 	unsigned long		die;
@@ -33,10 +32,9 @@ typedef struct s_philo
 	pthread_mutex_t		*l_fork;
 	pthread_mutex_t		*r_fork;
 	unsigned long long	meal;
-	int 				fed_up;
+	int					fed_up;
 	pthread_mutex_t		*print_m;
-	int 				*print_b;
-
+	int					*print_b;
 }	t_philo;
 
 typedef struct s_info_i
@@ -49,9 +47,9 @@ typedef struct s_info_i
 	pthread_mutex_t		*forks;
 	pthread_t			*thread;
 	t_philo				*philos;
-	int 				all_fed_up;
+	int					all_fed_up;
 	pthread_mutex_t		print_m;
-	int 				print_b;
+	int					print_b;
 }	t_info_i;
 
 int					main(int argc, char **argv);

@@ -14,7 +14,7 @@
 
 void	free_every(t_info_i input)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < input.count)
