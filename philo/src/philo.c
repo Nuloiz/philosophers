@@ -58,6 +58,8 @@ static void	*threading(t_philo *input)
 		if (!eat(input) || !prot_print("is sleeping", input))
 			break ;
 		usleep(input->sleep);
+		if (!prot_print("is thinking", input))
+			break ;
 		i++;
 	}
 	input->fed_up = 1;
