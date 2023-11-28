@@ -14,36 +14,35 @@
 
 typedef void*	(*t_thread_func)(void	*);
 
-static int	eat(t_philo *input)
+static void	eat(t_philo *input)
 {
-	int	i;
-
-	i = 1;
 	if (input->num % 2 == 0)
 	{
 		pthread_mutex_lock((input->l_fork));
-		if (!prot_print("has taken a fork", input))
-			i = 0;
+		prot_print("has taken a fork", input);
 		pthread_mutex_lock((input->r_fork));
-		if (!prot_print("has taken a fork", input))
-			i = 0;
+		prot_print("has taken a fork", input);
 	}
 	else
 	{
 		pthread_mutex_lock((input->r_fork));
-		if (!prot_print("has taken a fork", input))
-			i = 0;
+		prot_print("has taken a fork", input);
 		pthread_mutex_lock((input->l_fork));
-		if (!prot_print("has taken a fork", input))
-			i = 0;
+		prot_print("has taken a fork", input);
 	}
 	input->meal = get_time(input);
-	if (!prot_print("is eating", input))
-		i = 0;
+	prot_print("is eating", input);
 	usleep(input->eat);
-	pthread_mutex_unlock((input->l_fork));
-	pthread_mutex_unlock((input->r_fork));
-	return (i);
+	if (input->num % 2 == 0)
+	{
+		pthread_mutex_unlock((input->l_fork));
+		pthread_mutex_unlock((input->r_fork));
+	}
+	else
+	{
+		pthread_mutex_unlock((input->r_fork));
+		pthread_mutex_unlock((input->l_fork));
+	}
 }
 
 static void	*threading(t_philo *input)
@@ -55,7 +54,8 @@ static void	*threading(t_philo *input)
 	{
 		if (input->must_eat == i)
 			input->fed_up = 1;
-		if (!eat(input) || !prot_print("is sleeping", input))
+		eat(input);
+		if (!prot_print("is sleeping", input))
 			break ;
 		usleep(input->sleep);
 		if (!prot_print("is thinking", input))
