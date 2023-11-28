@@ -37,7 +37,7 @@ static int	eat(t_philo *input)
 		if (!prot_print("has taken a fork", input))
 			i = 0;
 	}
-	input->meal = get_time(input) + (input->eat / 1000);
+	input->meal = get_time(input);
 	if (!prot_print("is eating", input))
 		i = 0;
 	usleep(input->eat);
@@ -54,7 +54,7 @@ static void	*threading(t_philo *input)
 	while (1)
 	{
 		if (input->must_eat == i)
-			break ;
+			input->fed_up = 1;
 		if (!eat(input) || !prot_print("is sleeping", input))
 			break ;
 		usleep(input->sleep);
@@ -62,7 +62,6 @@ static void	*threading(t_philo *input)
 			break ;
 		i++;
 	}
-	input->fed_up = 1;
 	return ((void *)input);
 }
 
@@ -133,7 +132,10 @@ int	philo(t_info_i input)
 		{
 			philos_fed_up(&input);
 			if (input.all_fed_up)
+			{
+				input.print_b = 0;
 				return (free_every(input), -1);
+			}
 			else if (input.philos[i].meal + ((unsigned long long)input.philos[i].die / 1000) < get_time((&input.philos[i])))
 			{
 				prot_print("died", &(input.philos[i]));
