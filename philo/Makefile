@@ -6,7 +6,7 @@ CFLAGS := -Wall -Wextra -Werror -g
 #CFLAGS := $(CFLAGS) -fsanitize=address -g
 #CFLAGS := $(CFLAGS) -fsanitize=thread
 
-SRC := main.c philo.c time.c free.c prot_print.c\
+SRC := main.c philo.c threads.c time.c free.c prot_print.c\
 	   libft_func/ft_atoi.c libft_func/ft_calloc.c
 
 SRC_DIR := src

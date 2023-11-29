@@ -14,62 +14,6 @@
 
 typedef void*	(*t_thread_func)(void	*);
 
-static void	take_forks(t_philo *input)
-{
-	if (input->num % 2 == 0)
-	{
-		pthread_mutex_lock((input->l_fork));
-		prot_print("has taken a fork", input);
-		pthread_mutex_lock((input->r_fork));
-		prot_print("has taken a fork", input);
-	}
-	else
-	{
-		pthread_mutex_lock((input->r_fork));
-		prot_print("has taken a fork", input);
-		pthread_mutex_lock((input->l_fork));
-		prot_print("has taken a fork", input);
-	}
-}
-
-static void	eat(t_philo *input)
-{
-	take_forks(input);
-	input->meal = get_time(input);
-	prot_print("is eating", input);
-	own_sleep(input->eat, input);
-	if (input->num % 2 == 0)
-	{
-		pthread_mutex_unlock((input->l_fork));
-		pthread_mutex_unlock((input->r_fork));
-	}
-	else
-	{
-		pthread_mutex_unlock((input->r_fork));
-		pthread_mutex_unlock((input->l_fork));
-	}
-}
-
-static void	*threading(t_philo *input)
-{
-	int					i;
-
-	i = 0;
-	while (1)
-	{
-		if (input->must_eat == i)
-			input->fed_up = 1;
-		eat(input);
-		if (!prot_print("is sleeping", input))
-			break ;
-		own_sleep(input->sleep, input);
-		if (!prot_print("is thinking", input))
-			break ;
-		i++;
-	}
-	return ((void *)input);
-}
-
 static t_philo	fill_struct_philo(t_info_i *input)
 {
 	t_philo	philos;

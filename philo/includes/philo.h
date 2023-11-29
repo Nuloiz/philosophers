@@ -55,6 +55,7 @@ typedef struct s_info_i
 
 int					main(int argc, char **argv);
 int					philo(t_info_i input);
+void				*threading(t_philo *input);
 unsigned long long	get_time(t_philo *input);
 unsigned long long	start_time(void);
 void				own_sleep(unsigned long time, t_philo *input);
