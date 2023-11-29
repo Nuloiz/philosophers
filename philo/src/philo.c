@@ -105,16 +105,46 @@ static int	philos_fed_up(t_info_i *input)
 	return (0);
 }
 
+static void	fill_struct_info(t_info_i *input)
+{
+	input->philos = ft_calloc(sizeof(t_philo), input->count);
+	input->thread = ft_calloc(sizeof(pthread_t), input->count);
+	input->forks = ft_calloc(sizeof(pthread_mutex_t), input->count);
+	pthread_mutex_init(&(input->print_m), NULL);
+	input->print_b = 1;
+	pthread_mutex_init(&(input->print_bm), NULL);
+}
+
+static int	check_philos(t_info_i *input)
+{
+	int	i;
+
+	while (1)
+	{
+		i = 0;
+		while (i < input->count)
+		{
+			if (!philos_fed_up(input))
+				return (0);
+			if (input->philos[i].meal + ((unsigned long long) \
+			input->philos[i].die / 1000) < get_time((&input->philos[i])))
+			{
+				prot_print("died", &(input->philos[i]));
+				pthread_mutex_lock(&(input->print_bm));
+				input->print_b = 0;
+				pthread_mutex_unlock(&(input->print_bm));
+				return (free_every(*input), -1);
+			}
+			i++;
+		}
+	}
+}
+
 int	philo(t_info_i input)
 {
 	int		i;
 
-	input.philos = ft_calloc(sizeof(t_philo), input.count);
-	input.thread = ft_calloc(sizeof(pthread_t), input.count);
-	input.forks = ft_calloc(sizeof(pthread_mutex_t), input.count);
-	pthread_mutex_init(&(input.print_m), NULL);
-	input.print_b = 1;
-	pthread_mutex_init(&(input.print_bm), NULL);
+	fill_struct_info(&input);
 	i = -1;
 	while (++i < input.count)
 		pthread_mutex_init(&(input.forks[i]), NULL);
@@ -132,23 +162,5 @@ int	philo(t_info_i input)
 						(void *)&(input.philos[i]));
 		i++;
 	}
-	while (1)
-	{
-		i = 0;
-		while (i < input.count)
-		{
-			if (!philos_fed_up(&input))
-				return (0);
-			if (input.philos[i].meal + ((unsigned long long)input.philos[i].die \
-				/ 1000) < get_time((&input.philos[i])))
-			{
-				prot_print("died", &(input.philos[i]));
-				pthread_mutex_lock(&(input.print_bm));
-				input.print_b = 0;
-				pthread_mutex_unlock(&(input.print_bm));
-				return (free_every(input), -1);
-			}
-			i++;
-		}
-	}
+	return (check_philos(&input));
 }
