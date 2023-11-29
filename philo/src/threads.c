@@ -25,13 +25,6 @@ static void	take_forks(t_philo *input)
 	{
 		pthread_mutex_lock((input->r_fork));
 		prot_print("has taken a fork", input);
-		if (input->num == 1)
-		{
-			own_sleep((input->die) + 200000, input);
-			prot_print("has taken a shit", input);
-			pthread_mutex_unlock((input->r_fork));
-			return ;
-		}
 		pthread_mutex_lock((input->l_fork));
 		prot_print("has taken a fork", input);
 	}
