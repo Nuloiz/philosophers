@@ -123,7 +123,8 @@ int	philo(t_info_i input)
 			input.philos[i].l_fork = &input.forks[input.count - 1];
 		else
 			input.philos[i].l_fork = &input.forks[i - 1];
-		pthread_create(&(input.thread[i]), NULL, (t_thread_func)threading, (void *)&(input.philos[i]));
+		pthread_create(&(input.thread[i]), NULL, (t_thread_func)threading, \
+						(void *)&(input.philos[i]));
 		i++;
 	}
 	while (1)
@@ -133,7 +134,8 @@ int	philo(t_info_i input)
 		{
 			if (!philos_fed_up(&input))
 				return (0);
-			if (input.philos[i].meal + ((unsigned long long)input.philos[i].die / 1000) < get_time((&input.philos[i])))
+			if (input.philos[i].meal + ((unsigned long long)input.philos[i].die \
+				/ 1000) < get_time((&input.philos[i])))
 			{
 				prot_print("died", &(input.philos[i]));
 				pthread_mutex_lock(&(input.print_bm));
