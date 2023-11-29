@@ -32,3 +32,12 @@ unsigned long long	start_time(void)
 	miliseconds = (time.tv_usec / 1000) + (time.tv_sec * 1000);
 	return (miliseconds);
 }
+
+void	own_sleep(unsigned long time, t_philo *input)
+{
+	unsigned long long	start;
+
+	start = get_time(input);
+	while (get_time(input) < start + (time / 1000))
+		usleep(100);
+}

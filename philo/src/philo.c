@@ -32,7 +32,7 @@ static void	eat(t_philo *input)
 	}
 	input->meal = get_time(input);
 	prot_print("is eating", input);
-	usleep(input->eat);
+	own_sleep(input->eat, input);
 	if (input->num % 2 == 0)
 	{
 		pthread_mutex_unlock((input->l_fork));
@@ -57,7 +57,7 @@ static void	*threading(t_philo *input)
 		eat(input);
 		if (!prot_print("is sleeping", input))
 			break ;
-		usleep(input->sleep);
+		own_sleep(input->sleep, input);
 		if (!prot_print("is thinking", input))
 			break ;
 		i++;
@@ -81,23 +81,20 @@ static t_philo	fill_struct_philo(t_info_i *input)
 	return (philos);
 }
 
-void	philos_fed_up(t_info_i *input)
+static int	philos_fed_up(t_info_i *input)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 1;
 	while (i < input->count)
 	{
 		if (input->philos[i].fed_up == 0)
-		{
-			j = 0;
-			break ;
-		}
+			return (1);
 		i++;
 	}
-	input->all_fed_up = j;
+	input->print_b = 0;
+	free_every(*input);
+	return (0);
 }
 
 int	philo(t_info_i input)
@@ -130,13 +127,9 @@ int	philo(t_info_i input)
 		i = 0;
 		while (i < input.count)
 		{
-			philos_fed_up(&input);
-			if (input.all_fed_up)
-			{
-				input.print_b = 0;
-				return (free_every(input), -1);
-			}
-			else if (input.philos[i].meal + ((unsigned long long)input.philos[i].die / 1000) < get_time((&input.philos[i])))
+			if (!philos_fed_up(&input))
+				return (0);
+			if (input.philos[i].meal + ((unsigned long long)input.philos[i].die / 1000) < get_time((&input.philos[i])))
 			{
 				prot_print("died", &(input.philos[i]));
 				input.print_b = 0;
