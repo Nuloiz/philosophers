@@ -2,8 +2,8 @@ NAME := philo
 
 CC := gcc
 
-#CFLAGS := -Wall -Wextra -Werror -g
-CFLAGS := $(CFLAGS) -fsanitize=address -g
+CFLAGS := -Wall -Wextra -Werror -g
+#CFLAGS := $(CFLAGS) -fsanitize=address -g
 #CFLAGS := $(CFLAGS) -fsanitize=thread
 
 SRC := main.c philo.c time.c free.c prot_print.c\

@@ -35,6 +35,7 @@ typedef struct s_philo
 	int					fed_up;
 	pthread_mutex_t		*print_m;
 	int					*print_b;
+	pthread_mutex_t		*print_bm;
 }	t_philo;
 
 typedef struct s_info_i
@@ -49,6 +50,7 @@ typedef struct s_info_i
 	t_philo				*philos;
 	pthread_mutex_t		print_m;
 	int					print_b;
+	pthread_mutex_t		print_bm;
 }	t_info_i;
 
 int					main(int argc, char **argv);

@@ -24,6 +24,7 @@ void	free_every(t_info_i input)
 		i++;
 	}
 	pthread_mutex_destroy(&(input.print_m));
+	pthread_mutex_destroy(&(input.print_bm));
 	free(input.philos);
 	free(input.thread);
 	free(input.forks);

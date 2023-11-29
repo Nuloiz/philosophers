@@ -78,6 +78,7 @@ static t_philo	fill_struct_philo(t_info_i *input)
 	philos.fed_up = 0;
 	philos.print_m = &input->print_m;
 	philos.print_b = &input->print_b;
+	philos.print_bm = &input->print_bm;
 	return (philos);
 }
 
@@ -92,7 +93,9 @@ static int	philos_fed_up(t_info_i *input)
 			return (1);
 		i++;
 	}
+	pthread_mutex_lock(&(input->print_bm));
 	input->print_b = 0;
+	pthread_mutex_unlock(&(input->print_bm));
 	free_every(*input);
 	return (0);
 }
@@ -106,6 +109,7 @@ int	philo(t_info_i input)
 	input.forks = ft_calloc(sizeof(pthread_mutex_t), input.count);
 	pthread_mutex_init(&(input.print_m), NULL);
 	input.print_b = 1;
+	pthread_mutex_init(&(input.print_bm), NULL);
 	i = -1;
 	while (++i < input.count)
 		pthread_mutex_init(&(input.forks[i]), NULL);
@@ -132,7 +136,9 @@ int	philo(t_info_i input)
 			if (input.philos[i].meal + ((unsigned long long)input.philos[i].die / 1000) < get_time((&input.philos[i])))
 			{
 				prot_print("died", &(input.philos[i]));
+				pthread_mutex_lock(&(input.print_bm));
 				input.print_b = 0;
+				pthread_mutex_unlock(&(input.print_bm));
 				return (free_every(input), -1);
 			}
 			i++;
