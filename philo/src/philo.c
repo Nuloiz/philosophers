@@ -14,7 +14,7 @@
 
 typedef void*	(*t_thread_func)(void	*);
 
-static void	eat(t_philo *input)
+static void	take_forks(t_philo *input)
 {
 	if (input->num % 2 == 0)
 	{
@@ -30,6 +30,11 @@ static void	eat(t_philo *input)
 		pthread_mutex_lock((input->l_fork));
 		prot_print("has taken a fork", input);
 	}
+}
+
+static void	eat(t_philo *input)
+{
+	take_forks(input);
 	input->meal = get_time(input);
 	prot_print("is eating", input);
 	own_sleep(input->eat, input);
