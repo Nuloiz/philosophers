@@ -2,11 +2,11 @@ NAME := philo
 
 CC := gcc
 
-CFLAGS := -Wall -Wextra -Werror -g
+CFLAGS := -Wall -Wextra -Werror -g3
 #CFLAGS := $(CFLAGS) -fsanitize=address -g
 #CFLAGS := $(CFLAGS) -fsanitize=thread -g
 
-SRC := main.c philo.c threads.c time.c free.c prot_print.c\
+SRC := main.c philo.c threads.c fill_struct.c time.c free.c prot_print.c\
 	   libft_func/ft_atoi.c libft_func/ft_calloc.c
 
 SRC_DIR := src

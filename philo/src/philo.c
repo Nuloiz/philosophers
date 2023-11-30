@@ -14,23 +14,6 @@
 
 typedef void*	(*t_thread_func)(void	*);
 
-static t_philo	fill_struct_philo(t_info_i *input)
-{
-	t_philo	philos;
-
-	philos.start_time = start_time();
-	philos.must_eat = input->must_eat;
-	philos.eat = input->eat;
-	philos.die = input->die;
-	philos.sleep = input->sleep;
-	philos.meal = 0;
-	philos.fed_up = 0;
-	philos.print_m = &input->print_m;
-	philos.print_b = &input->print_b;
-	philos.print_bm = &input->print_bm;
-	return (philos);
-}
-
 static int	philos_fed_up(t_info_i *input)
 {
 	int	i;
@@ -47,16 +30,6 @@ static int	philos_fed_up(t_info_i *input)
 	pthread_mutex_unlock(&(input->print_bm));
 	free_every(*input);
 	return (0);
-}
-
-static void	fill_struct_info(t_info_i *input)
-{
-	input->philos = ft_calloc(sizeof(t_philo), input->count);
-	input->thread = ft_calloc(sizeof(pthread_t), input->count);
-	input->forks = ft_calloc(sizeof(pthread_mutex_t), input->count);
-	pthread_mutex_init(&(input->print_m), NULL);
-	input->print_b = 1;
-	pthread_mutex_init(&(input->print_bm), NULL);
 }
 
 static int	check_philos(t_info_i *input)
@@ -93,6 +66,8 @@ int	philo(t_info_i input)
 	while (++i < input.count)
 		pthread_mutex_init(&(input.forks[i]), NULL);
 	i = 0;
+	if (input.count == 1)
+		return (one_philo(input), 1);
 	while (i < input.count)
 	{
 		input.philos[i] = fill_struct_philo(&input);
