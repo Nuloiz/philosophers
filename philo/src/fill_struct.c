@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h""
+#include "philo.h"
 
 void	fill_struct_info(t_info_i *input)
 {

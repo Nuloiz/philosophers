@@ -57,6 +57,15 @@ static int	check_philos(t_info_i *input)
 	}
 }
 
+static void	one_philo(t_info_i *input)
+{
+	pthread_mutex_lock(&(input->forks[0]));
+	printf("0 1 has taken a fork");
+	sleep(input->die + 200000);
+	pthread_mutex_unlock(&(input->forks[0]));
+	
+}
+
 int	philo(t_info_i input)
 {
 	int		i;
@@ -67,7 +76,7 @@ int	philo(t_info_i input)
 		pthread_mutex_init(&(input.forks[i]), NULL);
 	i = 0;
 	if (input.count == 1)
-		return (one_philo(input), 1);
+		return (one_philo(&input), 1);
 	while (i < input.count)
 	{
 		input.philos[i] = fill_struct_philo(&input);
