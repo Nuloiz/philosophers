@@ -34,6 +34,7 @@ typedef struct s_philo
 	unsigned long long	meal;
 	pthread_mutex_t		*meal_m;
 	int					fed_up;
+	pthread_mutex_t		*fed_up_m;
 	pthread_mutex_t		*print_m;
 	int					*print_b;
 	pthread_mutex_t		*print_bm;
@@ -48,6 +49,7 @@ typedef struct s_info_i
 	int					must_eat;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		*meals;
+	pthread_mutex_t		*fed_up;
 	pthread_t			*thread;
 	t_philo				*philos;
 	pthread_mutex_t		print_m;

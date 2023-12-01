@@ -21,6 +21,7 @@ void	fill_struct_info(t_info_i *input)
 	input->thread = ft_calloc(sizeof(pthread_t), input->count);
 	input->forks = ft_calloc(sizeof(pthread_mutex_t), input->count);
 	input->meals = ft_calloc(sizeof(pthread_mutex_t), input->count);
+	input->fed_up = ft_calloc(sizeof(pthread_mutex_t), input->count);
 	pthread_mutex_init(&(input->print_m), NULL);
 	input->print_b = 1;
 	pthread_mutex_init(&(input->print_bm), NULL);
@@ -28,6 +29,7 @@ void	fill_struct_info(t_info_i *input)
 	{
 		pthread_mutex_init(&(input->forks[i]), NULL);
 		pthread_mutex_init(&(input->meals[i]), NULL);
+		pthread_mutex_init(&(input->fed_up[i]), NULL);
 	}
 }
 

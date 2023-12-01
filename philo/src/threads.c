@@ -57,8 +57,10 @@ void	*threading(t_philo *input)
 	i = 0;
 	while (1)
 	{
+		pthread_mutex_lock((input->fed_up_m));
 		if (input->must_eat == i)
 			input->fed_up = 1;
+		pthread_mutex_unlock((input->fed_up_m));
 		eat(input);
 		if (!prot_print("is sleeping", input))
 			break ;

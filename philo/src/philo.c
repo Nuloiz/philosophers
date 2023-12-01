@@ -21,8 +21,13 @@ static int	philos_fed_up(t_info_i *input)
 	i = 0;
 	while (i < input->count)
 	{
+		pthread_mutex_lock((input->philos[i].fed_up_m));
 		if (input->philos[i].fed_up == 0)
+		{
+			pthread_mutex_unlock((input->philos[i].fed_up_m));
 			return (1);
+		}
+		pthread_mutex_unlock((input->philos[i].fed_up_m));
 		i++;
 	}
 	pthread_mutex_lock(&(input->print_bm));
@@ -88,6 +93,7 @@ int	philo(t_info_i input)
 		else
 			input.philos[i].l_fork = &input.forks[i - 1];
 		input.philos[i].meal_m = &input.meals[i];
+		input.philos[i].fed_up_m = &input.fed_up[i];
 		pthread_create(&(input.thread[i]), NULL, (t_thread_func)threading, \
 						(void *)&(input.philos[i]));
 		i++;
