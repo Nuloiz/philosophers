@@ -21,6 +21,8 @@
 # include <pthread.h>
 # include <sys/time.h>
 
+typedef void*	(*t_thread_func)(void	*);
+
 typedef struct s_philo
 {
 	unsigned long		die;

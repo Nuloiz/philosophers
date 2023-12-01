@@ -12,8 +12,6 @@
 
 #include "philo.h"
 
-typedef void*	(*t_thread_func)(void	*);
-
 static int	philos_fed_up(t_info_i *input)
 {
 	int	i;
@@ -72,7 +70,6 @@ static void	one_philo(t_info_i *input)
 	usleep(input->die);
 	printf("%lu 1 died\n", input->die / 1000);
 	pthread_mutex_unlock(&(input->forks[0]));
-	
 }
 
 int	philo(t_info_i input)
