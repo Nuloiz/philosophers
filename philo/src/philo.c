@@ -60,8 +60,9 @@ static int	check_philos(t_info_i *input)
 static void	one_philo(t_info_i *input)
 {
 	pthread_mutex_lock(&(input->forks[0]));
-	printf("0 1 has taken a fork");
-	sleep(input->die + 200000);
+	printf("0 1 has taken a fork\n");
+	usleep(input->die);
+	printf("%lu 1 died\n", input->die / 1000);
 	pthread_mutex_unlock(&(input->forks[0]));
 	
 }
