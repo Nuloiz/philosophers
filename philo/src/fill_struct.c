@@ -14,12 +14,21 @@
 
 void	fill_struct_info(t_info_i *input)
 {
+	int	i;
+
+	i = -1;
 	input->philos = ft_calloc(sizeof(t_philo), input->count);
 	input->thread = ft_calloc(sizeof(pthread_t), input->count);
 	input->forks = ft_calloc(sizeof(pthread_mutex_t), input->count);
+	input->meals = ft_calloc(sizeof(pthread_mutex_t), input->count);
 	pthread_mutex_init(&(input->print_m), NULL);
 	input->print_b = 1;
 	pthread_mutex_init(&(input->print_bm), NULL);
+	while (++i < input->count)
+	{
+		pthread_mutex_init(&(input->forks[i]), NULL);
+		pthread_mutex_init(&(input->meals[i]), NULL);
+	}
 }
 
 t_philo	fill_struct_philo(t_info_i *input)

@@ -33,7 +33,9 @@ static void	take_forks(t_philo *input)
 static void	eat(t_philo *input)
 {
 	take_forks(input);
+	pthread_mutex_lock((input->meal_m));
 	input->meal = get_time(input);
+	pthread_mutex_unlock((input->meal_m));
 	prot_print("is eating", input);
 	own_sleep(input->eat, input);
 	if (input->num % 2 == 0)

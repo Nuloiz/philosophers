@@ -43,15 +43,18 @@ static int	check_philos(t_info_i *input)
 		{
 			if (!philos_fed_up(input))
 				return (0);
+			pthread_mutex_lock((input->philos[i].meal_m));
 			if (input->philos[i].meal + ((unsigned long long) \
 			input->philos[i].die / 1000) < get_time((&input->philos[i])))
 			{
 				prot_print("died", &(input->philos[i]));
+				pthread_mutex_unlock((input->philos[i].meal_m));
 				pthread_mutex_lock(&(input->print_bm));
 				input->print_b = 0;
 				pthread_mutex_unlock(&(input->print_bm));
 				return (free_every(*input), -1);
 			}
+			pthread_mutex_unlock((input->philos[i].meal_m));
 			i++;
 		}
 	}
@@ -72,9 +75,6 @@ int	philo(t_info_i input)
 	int		i;
 
 	fill_struct_info(&input);
-	i = -1;
-	while (++i < input.count)
-		pthread_mutex_init(&(input.forks[i]), NULL);
 	i = 0;
 	if (input.count == 1)
 		return (one_philo(&input), 1);
@@ -87,6 +87,7 @@ int	philo(t_info_i input)
 			input.philos[i].l_fork = &input.forks[input.count - 1];
 		else
 			input.philos[i].l_fork = &input.forks[i - 1];
+		input.philos[i].meal_m = &input.meals[i];
 		pthread_create(&(input.thread[i]), NULL, (t_thread_func)threading, \
 						(void *)&(input.philos[i]));
 		i++;

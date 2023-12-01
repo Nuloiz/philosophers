@@ -20,6 +20,7 @@ void	free_every(t_info_i input)
 	while (i < input.count)
 	{
 		pthread_mutex_destroy(&(input.forks[i]));
+		pthread_mutex_destroy(&(input.meals[i]));
 		pthread_join((input.thread[i]), NULL);
 		i++;
 	}
@@ -28,4 +29,5 @@ void	free_every(t_info_i input)
 	free(input.philos);
 	free(input.thread);
 	free(input.forks);
+	free(input.meals);
 }
